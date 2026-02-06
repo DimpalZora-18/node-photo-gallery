@@ -1,0 +1,31 @@
+<%- include('../partials/header') %>
+
+<div class="row justify-content-center">
+  <div class="col-md-8 col-lg-6">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h4 class="card-title mb-3">Add New Photo</h4>
+
+        <form action="/photos/<%= photo._id %>?_method=PUT" method="POST" enctype="multipart/form-data">
+
+          <div class="mb-3">
+            <label class="form-label">Title</label>
+            <input name="title" class="form-control" required placeholder="Photo title" value="<%= photo.title %>">
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputphoto" class="form-label">Photo</label>
+            <input type="file" name="photo" class="form-control" id="exampleInputphoto" aria-describedby="">
+          </div>
+              <button class="btn btn-primary">Update</button>
+              <a href="/photos" class="btn btn-outline-danger ms-2" onclick="if(!confirm('Cancel edit?')) return false;">Cancel</a>
+            </div>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<%- include('../partials/footer') %>
