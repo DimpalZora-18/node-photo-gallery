@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require('express');
 const mongoose = require('mongoose');
 const Photo = require('./models/photo.js');
@@ -22,7 +23,7 @@ app.use(session({
     secret : "secret key",
     resave : false,
     saveUninitialized: false,
-    store : mongoStore.create({mongoUrl:'mongodb://127.0.0.1:27017/gallery'})
+    store : mongoStore.create({mongoUrl:process.env.MONGO_URL})
 }));
 
 //function so that we can not able to aceess any other page
@@ -44,7 +45,7 @@ const upload = multer({ storage });
 
 
 //Mongo Db Connection
-mongoose.connect("mongodb://127.0.0.1:27017/gallery")
+mongoose.connect(process.env.MONGO_URL)
 .then(()=>{
     console.log("mongodb connected");
 })
