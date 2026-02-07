@@ -111,6 +111,7 @@ app.post('/signup',async(req,res)=>{
     }catch(err){
         console.log("sinup error:",err);
         res.status(500).send("something went wrong");
+        return res.redirect("/signup");
     }
 });
 
