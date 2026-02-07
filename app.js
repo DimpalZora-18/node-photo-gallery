@@ -109,8 +109,6 @@ app.post('/signup',async(req,res)=>{
     await login.create({email, password });
     res.redirect("/login");
     }catch(err){
-        console.log("sinup error:",err);
-        res.status(500).send("something went wrong");
         return res.redirect("/signup");
     }
 });
