@@ -10,8 +10,9 @@ const session = require('express-session');
 const cookie = require('cookie-parser');
 const mongoStore = require('connect-mongo');
 const app = express();
-const port = 8000;
+const port = process.env.PORT || 8000;
 
+app.use(express.json());
 app.use(cookie());
 
 app.set('view engine','ejs');
@@ -20,7 +21,7 @@ app.use(methodOverride('_method'));
 app.use('/uploads', express.static('uploads'));
 
 app.use(session({
-    secret : "secret key",
+    secret: process.env.SESSION_SECRET,
     resave : false,
     saveUninitialized: false,
     store : mongoStore.create({mongoUrl:process.env.MONGO_URL})
@@ -97,9 +98,20 @@ app.get('/signup',(req,res)=>{
     res.render('auth/signup');
 });
 app.post('/signup',async(req,res)=>{
+    try{
     const {email,password} = req.body;
-    await login.create({email,password});
+    const existingUser = await login.findOne({email,password});
+
+    if(existingUser){
+        return res.send("User already exists.Please login.");
+    }
+
+    await login.create({email, password });
     res.redirect("/login");
+    }catch(err){
+        console.log("sinup error:",err);
+        res.status(500).send("something went wrong");
+    }
 });
 
 app.get('/login',(req,res)=>{
